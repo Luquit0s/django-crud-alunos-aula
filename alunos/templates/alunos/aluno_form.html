@@ -1,0 +1,16 @@
+{% extends 'alunos/base.html' %}
+
+{% block title %}{{ titulo }}{% endblock %}
+
+{% block content %}
+<h1>{{ titulo }}</h1>
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <div class="actions">
+        <button class="btn btn-primary" type="submit">Salvar</button>
+        <a class="btn btn-secondary" href="{% url 'aluno_list' %}">Cancelar</a>
+    </div>
+</form>
+{% endblock %}

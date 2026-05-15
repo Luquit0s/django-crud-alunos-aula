@@ -1,0 +1,42 @@
+{% extends 'alunos/base.html' %}
+
+{% block title %}Lista de Alunos{% endblock %}
+
+{% block content %}
+<h1>Lista de alunos</h1>
+<p class="muted">Exemplo didático de CRUD com Django.</p>
+
+<div class="actions">
+    <a class="btn btn-primary" href="{% url 'aluno_create' %}">Novo aluno</a>
+</div>
+
+<table>
+    <thead>
+        <tr>
+            <th>Nome</th>
+            <th>Email</th>
+            <th>Idade</th>
+            <th>Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for aluno in alunos %}
+        <tr>
+            <td>{{ aluno.nome }}</td>
+            <td>{{ aluno.email }}</td>
+            <td>{{ aluno.idade }}</td>
+            <td>
+                <div class="actions">
+                    <a class="btn btn-secondary" href="{% url 'aluno_update' aluno.pk %}">Editar</a>
+                    <a class="btn btn-danger" href="{% url 'aluno_delete' aluno.pk %}">Excluir</a>
+                </div>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="4">Nenhum aluno cadastrado ainda.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
