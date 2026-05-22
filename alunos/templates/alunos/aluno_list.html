@@ -9,26 +9,34 @@
 <div class="actions">
     <a class="btn btn-primary" href="{% url 'aluno_create' %}">Novo aluno</a>
 </div>
-
-<table>
+<form method="GET" style="margin: 20px 0; display: flex; gap: 10px;">
+    <input type="text" name="search" placeholder="Buscar por nome..." value="{{ request.GET.search }}" style="padding: 6px 12px; border: 1px solid #ccc; border-radius: 4px; width: 300px;">
+    <button type="submit" class="btn btn-primary" style="padding: 6px 12px;">Buscar</button>
+    {% if request.GET.search %}
+        <a href="{% url 'aluno_list' %}" class="btn btn-secondary" style="padding: 6px 12px; text-decoration: none; line-height: 24px;">Limpar Filtro</a>
+    {% endif %}
+</form>
+<table class="table table-striped table-hover mt-3">
     <thead>
         <tr>
             <th>Nome</th>
             <th>Email</th>
             <th>Idade</th>
+            <th>Curso</th>
             <th>Ações</th>
         </tr>
     </thead>
     <tbody>
         {% for aluno in alunos %}
         <tr>
-            <td>{{ aluno.nome }}</td>
+            <td><a href="{% url 'aluno_detail' aluno.pk %}" style="text-decoration: none; color: #0056b3; font-weight: bold;">{{ aluno.nome }}</a></td>
             <td>{{ aluno.email }}</td>
             <td>{{ aluno.idade }}</td>
+            <td>{{ aluno.curso }}</td>
             <td>
-                <div class="actions">
-                    <a class="btn btn-secondary" href="{% url 'aluno_update' aluno.pk %}">Editar</a>
-                    <a class="btn btn-danger" href="{% url 'aluno_delete' aluno.pk %}">Excluir</a>
+                <div style="display: flex; gap: 8px;">
+                    <a class="btn btn-sm btn-warning" href="{% url 'aluno_update' aluno.pk %}">Editar</a>
+                    <a class="btn btn-sm btn-danger" href="{% url 'aluno_delete' aluno.pk %}">Excluir</a>
                 </div>
             </td>
         </tr>

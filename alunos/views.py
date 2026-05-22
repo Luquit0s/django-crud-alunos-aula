@@ -4,9 +4,14 @@ from .models import Aluno
 
 
 def aluno_list(request):
-	alunos = Aluno.objects.all().order_by('nome')
-	return render(request, 'alunos/aluno_list.html', {'alunos': alunos})
-
+    nome_busca = request.GET.get('search')  # Captura o texto que o usuário digitou
+    alunos = Aluno.objects.all().order_by('nome')
+    
+    if nome_busca:
+        # Filtra os alunos cujo nome contenha o texto digitado (ignora maiúsculas/minúsculas)
+        alunos = alunos.filter(nome__icontains=nome_busca)
+        
+    return render(request, 'alunos/aluno_list.html', {'alunos': alunos})
 
 def aluno_create(request):
 	form = AlunoForm(request.POST or None)
@@ -42,3 +47,9 @@ def aluno_delete(request, pk):
 		return redirect('aluno_list')
 
 	return render(request, 'alunos/aluno_confirm_delete.html', {'aluno': aluno})
+
+
+def aluno_detail(request, pk):
+    # Busca o aluno pelo ID (pk). Se não achar, joga um erro 404 (Página não encontrada)
+    aluno = get_object_or_404(Aluno, pk=pk)
+    return render(request, 'alunos/aluno_detail.html', {'aluno': aluno})

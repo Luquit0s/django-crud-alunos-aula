@@ -6,6 +6,7 @@ class Aluno(models.Model):
 	email = models.EmailField(unique=True)
 	idade = models.PositiveIntegerField()
 	criado_em = models.DateTimeField(auto_now_add=True)
+	curso = models.CharField(max_length=100, null=True, blank=True)
 
 	def __str__(self):
 		return self.nome
